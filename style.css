@@ -1,0 +1,123 @@
+body {
+    position: relative;
+    transition: background-color 1s ease-in-out,
+    color 1s ease-in-out;
+}
+
+body.night {
+    background: #000;
+    color: #fff;
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.move-container {
+    transform: translate(0, calc(50vh - 50%));
+    transition: transform 1s ease-in-out;
+}
+
+.move-container.moved {
+    transform: translate(0, 0);
+}
+
+.request-button {
+    background-color: green;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: xx-large;
+    cursor: pointer;
+    border-radius: 2rem;
+
+    transition: background-color 1s ease-in-out;
+}
+
+.night .request-button {
+    background-color: royalblue;
+}
+
+.animate-button {
+    transition: background-color 0.3s ease-in-out;
+    overflow: hidden;
+    position: relative;
+}
+
+.animate-button:hover {
+    background-color: darkgreen;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.7);
+    transform: scale(0);
+    animation: ripple-effect 1s ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes ripple-effect {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.weather-container {
+    display: flex;
+    flex-direction: row;
+}
+
+weather-card {
+    opacity: 0;
+    flex: 1;
+    text-align: center;
+    transform: translateX(-15px);
+    animation: slide-in 1s ease-in-out forwards;
+}
+
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(-50vw);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.temperature {
+    font-size: xxx-large;
+}
+
+.trigger {
+    font-size: x-large;
+    cursor: pointer;
+}
+.trigger-content {
+    max-height: 0;
+    overflow: hidden;
+
+    padding: 0 20px;
+
+    opacity: 0;
+
+    transition:
+            max-height 0.5s ease,
+            padding 0.5s ease,
+            opacity 0.3s ease;
+}
+
+.expandable:hover .trigger-content {
+    max-height: 300px;
+    padding: 20px;
+    opacity: 1;
+}
