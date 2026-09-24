@@ -3,15 +3,6 @@ function getLocationWeather() {
         alert("Geolocation is not supported! Sorry :(");
     }
 
-    // Get the button
-    document.getElementById("move-container").classList.add("moved");
-
-    navigator.geolocation.getCurrentPosition(setWeather, setError, {
-        timeout: 5000
-    });
-}
-
-function getIpWeather() {
     fetch("https://ipapi.co/json/")
         .then(res => res.json())
         .then(data => setWeather({
@@ -23,6 +14,18 @@ function getIpWeather() {
         .catch(_ => setError())
 }
 
+function getAccurateLocation(e) {
+    e.preventDefault();
+
+    if (!navigator.geolocation) {
+        alert("Geolocation is not supported! Sorry :(");
+    }
+    
+    navigator.geolocation.getCurrentPosition(setWeather, setError, {
+        timeout: 5000
+    });
+}
+
 function setError(error) {
     switch (error.code) {
         case error.PERMISSION_DENIED:
@@ -32,8 +35,7 @@ function setError(error) {
             alert("Sorry, your location information is unavailable.");
             break;
         case error.TIMEOUT:
-            alert("Sorry, the request to get your location timed out. We'll try to get it using your IP!")
-            getIpWeather();
+            alert("Sorry, the request to get your location timed out.")
             break;
         default:
             alert("An unknown error occurred. Spooky...");
@@ -89,6 +91,7 @@ function setWeather(position) {
         })
         .then(res => res.json())
         .then(json => {
+            document.getElementById("move-container").classList.add("moved");
             elem.replaceChildren();
             json["properties"]["periods"].forEach((item, idx) => {
                 if (idx > 5) return;
@@ -112,3 +115,4 @@ function setWeather(position) {
 }
 
 document.getElementById("request-weather").addEventListener("click", getLocationWeather)
+document.getElementById("get-location").addEventListener("click", getAccurateLocation);

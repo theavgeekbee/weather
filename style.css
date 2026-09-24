@@ -2,6 +2,7 @@ body {
     position: relative;
     transition: background-color 1s ease-in-out,
     color 1s ease-in-out;
+    font-family: monospace;
 }
 
 body.night {
@@ -120,4 +121,24 @@ weather-card {
     max-height: 300px;
     padding: 20px;
     opacity: 1;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+a {
+    transition: color 1s ease-in-out;
+}
+
+a:visited {
+    color: LinkText;
+}
+.night a {
+    color: lightblue;
+}
+.night a:visited {
+    color: lightblue;
 }
