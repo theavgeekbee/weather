@@ -9,7 +9,8 @@ function getLocationWeather() {
             "coords": {
                 "latitude": data["latitude"],
                 "longitude": data["longitude"]
-            }
+            },
+            "location": `Weather for ${data["city"]}, ${data["country_name"]} (Postal Code ${data["postal"]})`
         }))
         .catch(_ => setError())
 }
@@ -46,6 +47,11 @@ function setError(error) {
 function setWeather(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
+    let location = position.location;
+
+    if (!location) {
+        location = "Weather for current location (using geolocation services)"
+    }
 
     const now = new Date();
     const times = SunCalc.getTimes(now, latitude, longitude);
@@ -92,7 +98,14 @@ function setWeather(position) {
         .then(res => res.json())
         .then(json => {
             document.getElementById("move-container").classList.add("moved");
+            document.getElementById("location-header")?.remove();
             elem.replaceChildren();
+
+            const header = document.createElement("h1");
+            header.innerText = location;
+            header.id = "location-header"
+            document.getElementById("container-container").prepend(header);
+
             json["properties"]["periods"].forEach((item, idx) => {
                 if (idx > 5) return;
                 const card = document.createElement("weather-card")
